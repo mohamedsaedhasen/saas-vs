@@ -168,40 +168,52 @@ export async function POST(request: NextRequest) {
 
         // Create branch access if branch was created
         if (defaultBranch) {
-            await supabase.from('user_branch_access').insert({
-                user_id: newUser.id,
-                company_id: newCompany.id,
-                branch_id: defaultBranch.id,
-                can_view: true,
-                can_edit: true,
-                can_delete: true,
-                is_default: true,
-            }).catch(e => console.log('Branch access creation skipped:', e));
+            try {
+                await supabase.from('user_branch_access').insert({
+                    user_id: newUser.id,
+                    company_id: newCompany.id,
+                    branch_id: defaultBranch.id,
+                    can_view: true,
+                    can_edit: true,
+                    can_delete: true,
+                    is_default: true,
+                });
+            } catch (e) {
+                console.log('Branch access creation skipped:', e);
+            }
         }
 
         // Create default warehouse (optional)
-        await supabase.from('warehouses').insert({
-            company_id: newCompany.id,
-            branch_id: defaultBranch?.id,
-            code: 'WH-01',
-            name: 'Main Warehouse',
-            name_ar: 'المخزن الرئيسي',
-            is_default: true,
-            is_active: true,
-        }).catch(e => console.log('Warehouse creation skipped:', e));
+        try {
+            await supabase.from('warehouses').insert({
+                company_id: newCompany.id,
+                branch_id: defaultBranch?.id,
+                code: 'WH-01',
+                name: 'Main Warehouse',
+                name_ar: 'المخزن الرئيسي',
+                is_default: true,
+                is_active: true,
+            });
+        } catch (e) {
+            console.log('Warehouse creation skipped:', e);
+        }
 
         // Create default vault (optional)
-        await supabase.from('vaults').insert({
-            company_id: newCompany.id,
-            branch_id: defaultBranch?.id,
-            code: 'CASH-01',
-            name: 'Main Cash',
-            name_ar: 'الخزينة الرئيسية',
-            vault_type: 'cash',
-            currency: 'EGP',
-            balance: 0,
-            is_default: true,
-        }).catch(e => console.log('Vault creation skipped:', e));
+        try {
+            await supabase.from('vaults').insert({
+                company_id: newCompany.id,
+                branch_id: defaultBranch?.id,
+                code: 'CASH-01',
+                name: 'Main Cash',
+                name_ar: 'الخزينة الرئيسية',
+                vault_type: 'cash',
+                currency: 'EGP',
+                balance: 0,
+                is_default: true,
+            });
+        } catch (e) {
+            console.log('Vault creation skipped:', e);
+        }
 
         // Number sequences (optional)
         const sequences = [
@@ -212,13 +224,17 @@ export async function POST(request: NextRequest) {
         ];
 
         for (const seq of sequences) {
-            await supabase.from('number_sequences').insert({
-                company_id: newCompany.id,
-                document_type: seq.document_type,
-                prefix: seq.prefix,
-                next_number: 1,
-                padding: 5,
-            }).catch(() => { });
+            try {
+                await supabase.from('number_sequences').insert({
+                    company_id: newCompany.id,
+                    document_type: seq.document_type,
+                    prefix: seq.prefix,
+                    next_number: 1,
+                    padding: 5,
+                });
+            } catch {
+                // Sequence creation optional
+            }
         }
 
         // Try to create chart of accounts (optional)

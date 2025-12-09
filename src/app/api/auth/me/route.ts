@@ -38,7 +38,9 @@ export async function GET(request: NextRequest) {
                 .single();
 
             if (userCompany) {
-                role = userCompany.role;
+                // Handle Supabase relation which may return array or object
+                const roleData = userCompany.role as unknown as { id: string; name: string; name_ar: string; is_super_admin: boolean } | null;
+                role = roleData;
                 isOwner = userCompany.is_owner || false;
 
                 // Get permissions
@@ -55,9 +57,15 @@ export async function GET(request: NextRequest) {
                         `)
                         .eq('role_id', role.id);
 
-                    permissions = rolePerms?.map(rp =>
-                        `${rp.permission?.module?.code}:${rp.permission?.action}`
-                    ).filter(Boolean) as string[] || [];
+                    if (rolePerms) {
+                        permissions = rolePerms.map(rp => {
+                            const perm = rp.permission as unknown as { action: string; module: { code: string } | null } | null;
+                            if (perm?.module?.code && perm?.action) {
+                                return `${perm.module.code}:${perm.action}`;
+                            }
+                            return null;
+                        }).filter((p): p is string => p !== null);
+                    }
                 }
             }
         }

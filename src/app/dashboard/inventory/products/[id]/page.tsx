@@ -104,18 +104,18 @@ export default function ProductDetailsPage() {
 
     // Calculate totals
     const totalStock = product.variants.reduce((sum, v) =>
-        sum + v.inventory.reduce((s, i) => s + (i.quantity || 0), 0), 0
+        sum + (v.inventory?.reduce((s, i) => s + (i.quantity || 0), 0) || 0), 0
     );
     const totalValue = product.variants.reduce((sum, v) =>
-        sum + v.inventory.reduce((s, i) => s + ((i.quantity || 0) * (v.cost_price || 0)), 0), 0
+        sum + (v.inventory?.reduce((s, i) => s + ((i.quantity || 0) * (v.cost_price || 0)), 0) || 0), 0
     );
     const minStock = product.min_stock_level || 10;
     const lowStockVariants = product.variants.filter(v => {
-        const stock = v.inventory.reduce((s, i) => s + (i.quantity || 0), 0);
+        const stock = v.inventory?.reduce((s, i) => s + (i.quantity || 0), 0) || 0;
         return stock <= minStock && stock > 0;
     });
     const outOfStockVariants = product.variants.filter(v =>
-        v.inventory.reduce((s, i) => s + (i.quantity || 0), 0) === 0
+        (v.inventory?.reduce((s, i) => s + (i.quantity || 0), 0) || 0) === 0
     );
 
     return (
@@ -281,7 +281,7 @@ export default function ProductDetailsPage() {
                                         </div>
                                     ) : (
                                         product.variants.map(variant => {
-                                            const stock = variant.inventory.reduce((s, i) => s + (i.quantity || 0), 0);
+                                            const stock = variant.inventory?.reduce((s, i) => s + (i.quantity || 0), 0) || 0;
                                             const isLow = stock <= minStock && stock > 0;
                                             const isOut = stock === 0;
                                             const isExpanded = expandedVariants.has(variant.id);
@@ -321,7 +321,7 @@ export default function ProductDetailsPage() {
                                                         </div>
                                                     </div>
 
-                                                    {isExpanded && variant.inventory.length > 0 && (
+                                                    {isExpanded && variant.inventory && variant.inventory.length > 0 && (
                                                         <div className="border-t border-border p-3 bg-muted/20">
                                                             <table className="w-full text-sm">
                                                                 <thead>

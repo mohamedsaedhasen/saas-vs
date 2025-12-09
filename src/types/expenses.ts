@@ -56,8 +56,8 @@ export interface ExpenseCategory {
     children?: ExpenseCategory[];
     total_spent?: number;
     voucher_count?: number;
-    last_voucher_date?: string;
-    last_voucher_number?: string;    // ** جديد ** رقم آخر سند
+    last_voucher_date?: string | null;
+    last_voucher_number?: string | null;    // ** جديد ** رقم آخر سند
 }
 
 export type ExpenseType =

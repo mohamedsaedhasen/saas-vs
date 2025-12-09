@@ -26,7 +26,8 @@ export async function GET(request: NextRequest) {
                 .eq('company_id', companyId)
                 .single();
 
-            if (userCompany?.is_owner || userCompany?.role?.is_super_admin) {
+            const roleData = userCompany?.role as unknown as { is_super_admin: boolean } | null;
+            if (userCompany?.is_owner || roleData?.is_super_admin) {
                 // Get all branches - RLS automatically filters by company_id
                 const { data: branches, error } = await supabase
                     .from('branches')
