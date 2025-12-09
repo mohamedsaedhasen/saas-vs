@@ -131,7 +131,8 @@ export async function getCustomers(limit = 50) {
             customer_group,
             total_orders,
             total_spent,
-            current_balance,
+            balance:current_balance,
+            credit_balance,
             credit_limit,
             is_active
         `)

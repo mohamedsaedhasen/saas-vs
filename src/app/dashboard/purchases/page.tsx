@@ -20,7 +20,7 @@ export default async function PurchasesDashboardPage() {
 
     // Top suppliers by balance
     const topSuppliers = suppliers
-        .sort((a, b) => (b.current_balance || 0) - (a.current_balance || 0))
+        .sort((a, b) => (b.balance || 0) - (a.balance || 0))
         .slice(0, 5);
 
     return (
@@ -167,8 +167,8 @@ export default async function PurchasesDashboardPage() {
                                     <div className="text-sm text-muted-foreground">{supplier.phone || 'لا يوجد رقم'}</div>
                                 </div>
                                 <div className="text-left">
-                                    <div className={`font-semibold ${(supplier.current_balance || 0) > 0 ? 'text-red-600' : 'text-emerald-600'}`}>
-                                        {(supplier.current_balance || 0).toLocaleString('ar-EG')} ج.م
+                                    <div className={`font-semibold ${(supplier.balance || 0) > 0 ? 'text-red-600' : 'text-emerald-600'}`}>
+                                        {(supplier.balance || 0).toLocaleString('ar-EG')} ج.م
                                     </div>
                                     <div className="text-xs text-muted-foreground">
                                         {supplier.city || 'غير محدد'}

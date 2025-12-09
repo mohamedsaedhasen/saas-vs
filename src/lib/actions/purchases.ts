@@ -59,7 +59,8 @@ export async function getSuppliers(limit = 50) {
             phone,
             email,
             city,
-            current_balance,
+            balance:current_balance,
+            credit_balance,
             credit_limit,
             is_active
         `)
@@ -105,12 +106,12 @@ export async function getSupplierStats() {
 
     const { data } = await supabase
         .from('contacts')
-        .select('id, current_balance')
+        .select('id, balance:current_balance')
         .eq('company_id', COMPANY_ID)
         .eq('contact_type', 'supplier');
 
     const total = data?.length || 0;
-    const totalBalance = data?.reduce((sum, s) => sum + (s.current_balance || 0), 0) || 0;
+    const totalBalance = data?.reduce((sum, s) => sum + ((s as { balance?: number }).balance || 0), 0) || 0;
 
     return { total, totalBalance };
 }
