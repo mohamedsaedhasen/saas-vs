@@ -67,15 +67,16 @@ export async function GET(request: NextRequest) {
         }> = {};
 
         agingData.forEach(inv => {
-            const customerId = (inv.customer as { id: string })?.id || 'unknown';
+            const customerData = inv.customer as unknown as { id: string; code?: string; name?: string; name_ar?: string; phone?: string; balance?: number } | null;
+            const customerId = customerData?.id || 'unknown';
 
             if (!customerAging[customerId]) {
                 customerAging[customerId] = {
                     customer: {
-                        id: (inv.customer as { id: string })?.id || '',
-                        name: (inv.customer as { name_ar?: string; name?: string })?.name_ar || (inv.customer as { name?: string })?.name || 'غير معروف',
-                        phone: (inv.customer as { phone?: string })?.phone || '',
-                        balance: (inv.customer as { balance?: number })?.balance || 0,
+                        id: customerData?.id || '',
+                        name: customerData?.name_ar || customerData?.name || 'غير معروف',
+                        phone: customerData?.phone || '',
+                        balance: customerData?.balance || 0,
                     },
                     invoices: [],
                     totals: { current: 0, '1-30': 0, '31-60': 0, '61-90': 0, 'over90': 0 },
