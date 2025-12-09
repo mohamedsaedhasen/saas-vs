@@ -12,11 +12,26 @@ import {
     FileText,
     Link2,
     Bell,
-    ChevronLeft
+    ChevronLeft,
+    LucideIcon
 } from 'lucide-react';
 
+interface SettingsItem {
+    title: string;
+    description: string;
+    icon: LucideIcon;
+    href: string;
+    color: string;
+    isTab?: boolean;
+}
+
+interface SettingsGroup {
+    title: string;
+    items: SettingsItem[];
+}
+
 export default function SettingsPage() {
-    const settingsGroups = [
+    const settingsGroups: SettingsGroup[] = [
         {
             title: 'إدارة المستخدمين والصلاحيات',
             items: [
