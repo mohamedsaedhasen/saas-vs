@@ -99,12 +99,12 @@ export default async function CODSettlementsPage() {
                                     <div>
                                         <div className="font-medium text-sm">{shipment.tracking_number}</div>
                                         <div className="text-xs text-muted-foreground">
-                                            {shipment.order?.customer_name || 'غير محدد'}
+                                            {(shipment.order as unknown as { customer_name?: string })?.customer_name || 'غير محدد'}
                                         </div>
                                     </div>
                                     <div className="text-left">
                                         <div className="font-semibold">{(shipment.cod_amount || 0).toLocaleString('ar-EG')}</div>
-                                        <div className="text-xs text-muted-foreground">{shipment.carrier?.name}</div>
+                                        <div className="text-xs text-muted-foreground">{(shipment.carrier as unknown as { name?: string })?.name}</div>
                                     </div>
                                 </div>
                             ))}
@@ -123,7 +123,7 @@ export default async function CODSettlementsPage() {
 
                     <div className="divide-y divide-border">
                         {carriers.map((carrier) => {
-                            const carrierPending = pendingCOD.filter(p => p.carrier?.id === carrier.id);
+                            const carrierPending = pendingCOD.filter(p => (p.carrier as unknown as { id?: string })?.id === carrier.id);
                             const carrierAmount = carrierPending.reduce((sum, p) => sum + (p.cod_amount || 0), 0);
 
                             return (
@@ -197,8 +197,8 @@ export default async function CODSettlementsPage() {
                                     </td>
                                     <td className="py-3 px-4 text-center">
                                         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${settlement.status === 'received' ? 'bg-emerald-100 text-emerald-700' :
-                                                settlement.status === 'confirmed' ? 'bg-blue-100 text-blue-700' :
-                                                    'bg-amber-100 text-amber-700'
+                                            settlement.status === 'confirmed' ? 'bg-blue-100 text-blue-700' :
+                                                'bg-amber-100 text-amber-700'
                                             }`}>
                                             {settlement.status === 'received' ? 'تم الاستلام' :
                                                 settlement.status === 'confirmed' ? 'مؤكد' : 'معلق'}
