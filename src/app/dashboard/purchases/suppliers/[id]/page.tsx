@@ -157,7 +157,7 @@ export default function SupplierDetailsPage() {
                                 <DollarSign size={14} />
                                 <span className="text-xs">مستحقات (دائن)</span>
                             </div>
-                            <div className="text-xl font-bold text-red-600">{(supplier.credit_balance || supplier.current_balance || 0).toLocaleString('ar-EG')}</div>
+                            <div className="text-xl font-bold text-red-600">{(supplier.credit_balance || 0).toLocaleString('ar-EG')}</div>
                         </div>
                         <div className="bg-card rounded-xl border border-border p-4">
                             <div className="flex items-center gap-2 text-muted-foreground mb-1">
