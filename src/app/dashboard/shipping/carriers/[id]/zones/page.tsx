@@ -88,7 +88,7 @@ export default async function CarrierZonesPage({ params }: { params: Promise<{ i
                                 <div>
                                     <div className="text-xs text-muted-foreground mb-1">المحافظات:</div>
                                     <div className="flex flex-wrap gap-1">
-                                        {zone.governorates.map((gov, i) => (
+                                        {zone.governorates.map((gov: string, i: number) => (
                                             <span key={i} className="px-2 py-0.5 bg-muted rounded text-xs">
                                                 {gov}
                                             </span>
@@ -101,7 +101,7 @@ export default async function CarrierZonesPage({ params }: { params: Promise<{ i
                                 <div className="mt-2">
                                     <div className="text-xs text-muted-foreground mb-1">المدن:</div>
                                     <div className="flex flex-wrap gap-1">
-                                        {zone.cities.map((city, i) => (
+                                        {zone.cities.map((city: string, i: number) => (
                                             <span key={i} className="px-2 py-0.5 bg-primary/10 text-primary rounded text-xs">
                                                 {city}
                                             </span>
