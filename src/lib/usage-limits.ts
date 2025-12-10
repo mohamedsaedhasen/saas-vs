@@ -39,7 +39,7 @@ export async function checkUsageLimit(
             return checkTrialLimits(metricType, increment, companyId, supabase);
         }
 
-        const plan = subscription.plan as {
+        const plan = subscription.plan as unknown as {
             max_users: number;
             max_branches: number;
             max_invoices_monthly: number;
@@ -92,7 +92,7 @@ async function checkTrialLimits(
     metricType: string,
     increment: number,
     companyId: string,
-    supabase: ReturnType<typeof import('@supabase/supabase-js').createClient>
+    supabase: any
 ): Promise<UsageLimitResult> {
     // Trial limits
     const trialLimits: Record<string, number> = {
@@ -117,7 +117,7 @@ async function checkTrialLimits(
 async function getCurrentUsage(
     metricType: 'invoices' | 'users' | 'products' | 'branches',
     companyId: string,
-    supabase: ReturnType<typeof import('@supabase/supabase-js').createClient>
+    supabase: any
 ): Promise<number> {
     let count = 0;
 
