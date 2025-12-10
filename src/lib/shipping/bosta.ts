@@ -121,7 +121,7 @@ export class BostaAPI {
         }
 
         this.token = data.data.token;
-        return this.token;
+        return data.data.token;
     }
 
     /**
