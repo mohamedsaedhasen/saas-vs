@@ -26,17 +26,6 @@ export function getCompanyId(request?: NextRequest): string {
         }
     }
 
-    // Try to get from Next.js cookies
-    try {
-        const cookieStore = cookies();
-        const companyIdCookie = cookieStore.get('company_id');
-        if (companyIdCookie?.value && companyIdCookie.value !== 'undefined') {
-            return companyIdCookie.value;
-        }
-    } catch (error) {
-        // cookies() might not be available in all contexts
-    }
-
     return DEFAULT_COMPANY_ID;
 }
 
