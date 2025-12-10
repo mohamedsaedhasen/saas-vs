@@ -23,19 +23,7 @@ export async function getServerCompanyId(): Promise<string> {
 }
 
 /**
- * Synchronous version for use in server components
+ * @deprecated Use getServerCompanyId() instead - cookies() is now async in Next.js 16
  */
-export function getServerCompanyIdSync(): string {
-    try {
-        const cookieStore = cookies();
-        const companyIdCookie = cookieStore.get('company_id');
+export const getServerCompanyIdSync = getServerCompanyId;
 
-        if (companyIdCookie?.value && companyIdCookie.value !== 'undefined') {
-            return companyIdCookie.value;
-        }
-    } catch (error) {
-        // Ignore errors in sync version
-    }
-
-    return DEFAULT_COMPANY_ID;
-}
