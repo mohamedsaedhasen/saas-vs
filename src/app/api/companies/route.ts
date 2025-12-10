@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/lib/supabase-server';
 import { cookies } from 'next/headers';
+import { initializeCompanyDefaults } from '@/lib/company-initializer';
 
 // GET: Fetch companies for the logged-in user
 export async function GET(request: NextRequest) {
@@ -131,6 +132,14 @@ export async function POST(request: NextRequest) {
                     role: 'admin',
                     is_primary: true,
                 });
+        }
+
+        // Initialize default accounting entities
+        if (data) {
+            const initResult = await initializeCompanyDefaults(supabase, data.id);
+            if (!initResult.success) {
+                console.warn('Warning: Failed to initialize company defaults:', initResult.error);
+            }
         }
 
         console.log('Company created successfully:', data.id);
