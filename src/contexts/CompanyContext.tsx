@@ -14,6 +14,7 @@ interface Company {
     id: string;
     code?: string;
     name: string;
+    name_en?: string;
     name_ar?: string;
     logo_url?: string;
     currency?: string;
