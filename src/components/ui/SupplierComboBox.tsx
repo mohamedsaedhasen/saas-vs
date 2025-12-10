@@ -159,7 +159,7 @@ export default function SupplierComboBox({
                                     </div>
                                     <div className="flex-1 text-right">
                                         <div className="font-medium">إنشاء مورد جديد</div>
-                                        <div className="text-sm opacity-70">"{query}"</div>
+                                        <div className="text-sm opacity-70">&quot;{query}&quot;</div>
                                     </div>
                                 </button>
                             )}

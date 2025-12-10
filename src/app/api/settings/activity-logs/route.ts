@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
         const limit = parseInt(searchParams.get('limit') || '50');
         const userId = searchParams.get('user_id');
         const action = searchParams.get('action');
-        const module = searchParams.get('module');
+        const moduleFilter = searchParams.get('module');
         const fromDate = searchParams.get('from_date');
         const toDate = searchParams.get('to_date');
 
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
         if (branchId) query = query.eq('branch_id', branchId);
         if (userId) query = query.eq('user_id', userId);
         if (action) query = query.eq('action', action);
-        if (module) query = query.eq('module', module);
+        if (moduleFilter) query = query.eq('module', moduleFilter);
         if (fromDate) query = query.gte('created_at', fromDate);
         if (toDate) query = query.lte('created_at', toDate);
 
