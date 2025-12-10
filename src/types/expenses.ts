@@ -58,6 +58,10 @@ export interface ExpenseCategory {
     voucher_count?: number;
     last_voucher_date?: string | null;
     last_voucher_number?: string | null;    // ** جديد ** رقم آخر سند
+    previous_voucher?: {
+        number?: string;
+        amount: number;
+    };
 }
 
 export type ExpenseType =
