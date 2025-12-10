@@ -53,8 +53,8 @@ export interface Product {
     updated_at: string;
 
     // العلاقات (للعرض)
-    category?: ProductCategory;
-    brand?: Brand;
+    category?: ProductCategory | null;
+    brand?: Brand | null;
     variants?: ProductVariant[];
     images?: ProductImage[];
     options?: ProductOption[];

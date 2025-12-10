@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
@@ -23,7 +23,7 @@ import { cn } from '@/lib/utils';
 import { LedgerFilters, VoucherForm } from '@/components/expenses';
 import type { ExpenseVoucher, ExpenseVoucherFilters, ExpenseCategory } from '@/types/expenses';
 
-export default function VouchersListPage() {
+function VouchersListContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -415,5 +415,17 @@ export default function VouchersListPage() {
                 ]}
             />
         </div>
+    );
+}
+
+export default function VouchersListPage() {
+    return (
+        <Suspense fallback={
+            <div className="flex items-center justify-center min-h-[400px]">
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+        }>
+            <VouchersListContent />
+        </Suspense>
     );
 }
